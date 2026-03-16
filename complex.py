@@ -1,5 +1,5 @@
 # complex.py
-
+import cmath
 def parse_complex_string(expression):
     """
     Member 1: Parses an input string like '(3 + 2j) * (5+ 3j)'[cite: 119].
@@ -12,6 +12,7 @@ def add_complex(c1, c2):
     """
     Member 2: Handles the addition of two complex numbers[cite: 120].
     """
+
     pass 
 
 def subtract_complex(c1, c2):
@@ -37,13 +38,15 @@ def compute_magnitude(c):
     """
     Member 4: Calculates the magnitude of a single complex number[cite: 122].
     """
-    pass
+    z = complex(c.replace(" ", ""))  
+    return abs(z)
 
 def compute_phase(c):
     """
     Member 4: Calculates the phase (angle) of a single complex number[cite: 122].
     """
-    pass
+    z = complex(c.replace(" ", "")) 
+    return cmath.phase(z)
 
 def evaluate_complex_expression(expression):
     """
