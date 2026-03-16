@@ -48,9 +48,6 @@ class TestComplexArithmetic(unittest.TestCase):
         self.assertAlmostEqual(compute_phase('0+1j'), math.pi/2)
         self.assertAlmostEqual(compute_phase('-1+0j'), math.pi)
 
-    def test_compute_phase(self):
-        # Test phase calculations (check against known angles)
-        pass
 
     # --- Member 5 Tests (Integration) ---
     def test_evaluate_complex_expression(self):
