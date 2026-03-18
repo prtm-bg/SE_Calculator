@@ -1,12 +1,33 @@
 # complex.py
+import re
+import cmath
+
+def _format_complex(c):
+    """
+    Helper function to format a Python complex object back into a 
+    clean 'a+bj' string without parentheses to match lab requirements.
+    """
+    res = str(c).replace(' ', '')
+    if res.startswith('(') and res.endswith(')'):
+        res = res[1:-1]
+    return res
 
 def parse_complex_string(expression):
     """
-    Member 1: Parses an input string like '(3 + 2j) * (5+ 3j)'[cite: 119].
+    Parses an input string like '(3+2j) * (5+3j)'.
     Extracts the two complex numbers and the mathematical operator.
-    Must support the standard a + bj representation[cite: 121].
     """
-    pass 
+    # Regex to capture everything inside the parentheses and the operator between them
+    pattern = r'\s*\(([^)]+)\)\s*([+\-*/])\s*\(([^)]+)\)\s*'
+    match = re.match(pattern, expression)
+    
+    if not match:
+        raise ValueError("Invalid complex expression format. Expected: '(a+bj) op (c+dj)'")
+    
+    c1_str, operator, c2_str = match.groups()
+    
+    # Remove any internal spaces (e.g., '3 + 2j' becomes '3+2j')
+    return c1_str.replace(' ', ''), operator, c2_str.replace(' ', '')
 
 def add_complex(c1, c2):
     """

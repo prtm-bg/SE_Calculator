@@ -8,14 +8,17 @@ from complex import (
 
 class TestComplexArithmetic(unittest.TestCase):
 
-    # --- Member 1 Tests ---
+    # --- Parser Tests ---
     def test_parse_complex_string_valid(self):
-        # Test normal valid strings here
-        pass
+        c1, op, c2 = parse_complex_string('(3 + 2j) * (5+ 3j)')
+        self.assertEqual(c1, '3+2j')
+        self.assertEqual(op, '*')
+        self.assertEqual(c2, '5+3j')
 
     def test_parse_complex_string_invalid(self):
-        # Test malformed strings or missing brackets here
-        pass
+        # Boundary Condition: Missing brackets should raise a ValueError
+        with self.assertRaises(ValueError):
+            parse_complex_string('3+2j * 5+3j')
 
     # --- Member 2 Tests ---
     def test_add_complex(self):
