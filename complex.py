@@ -1,4 +1,5 @@
 # complex.py
+from calculator import Calculator
 import re
 import cmath
 
@@ -45,14 +46,52 @@ def multiply_complex(c1, c2):
     """
     Member 3: Handles the multiplication of two complex numbers[cite: 120].
     """
-    pass
+    
+    calc = Calculator()
+    
+    # 1. Convert the incoming strings to Python complex objects
+    c1 = complex(c1_str)
+    c2 = complex(c2_str)
+    
+    a, b = c1.real, c1.imag
+    c, d = c2.real, c2.imag
+    
+    # (a+bi)*(c+di) = (ac - bd) + (ad + bc)i
+    real_part = calc.subtract(calc.multiply(a, c), calc.multiply(b, d))
+    imag_part = calc.add(calc.multiply(a, d), calc.multiply(b, c))
+    
+    # 4. Reconstruct into a complex object and format back to a string
+    result = complex(real_part, imag_part)
+    return _format_complex(result)
 
 def divide_complex(c1, c2):
     """
     Member 3: Handles the division of c1 by c2[cite: 120].
     Must include error handling for division by zero.
     """
-    pass
+    # c1 and c2 are tuples: (real, imag)
+    calc = Calculator()
+    
+    # 1. Convert the incoming strings to Python complex objects
+    c1 = complex(c1_str)
+    c2 = complex(c2_str)
+    
+    a, b = c1.real, c1.imag
+    c, d = c2.real, c2.imag
+    
+    # denominator = c^2 + d^2
+    denominator = calc.add(calc.multiply(c, c), calc.multiply(d, d))
+    if denominator == 0:
+        raise ValueError("Division by zero in complex division")
+    # real part: (ac + bd) / (c^2 + d^2)
+    real_num = calc.add(calc.multiply(a, c), calc.multiply(b, d))
+    real_part = calc.divide(real_num, denominator)
+    # imag part: (bc - ad) / (c^2 + d^2)
+    imag_num = calc.subtract(calc.multiply(b, c), calc.multiply(a, d))
+    imag_part = calc.divide(imag_num, denominator)
+    
+    result = complex(real_part, imag_part)
+    return _format_complex(result)
 
 def compute_magnitude(c):
     """
@@ -73,4 +112,4 @@ def evaluate_complex_expression(expression):
     routes the parsed data to the correct math function above, 
     and returns the final string result.
     """
-    pass
+    
