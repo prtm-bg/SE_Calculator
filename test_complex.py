@@ -56,10 +56,10 @@ class TestComplexArithmetic(unittest.TestCase):
 
     def test_divide_complex(self):
         # Normal cases
-        self.assertEqual(divide_complex((3, 2), (5, 3)), (0.6341463414634146, 0.04878048780487805))
+        self.assertEqual(divide_complex((3, 2), (5, 3)), (0.6176470588235294, 0.029411764705882353))
         self.assertEqual(divide_complex((0, 0), (5, 3)), (0.0, 0.0))
         self.assertEqual(divide_complex((1, 0), (1, 0)), (1.0, 0.0))
-        self.assertEqual(divide_complex((2, -3), (-1, 4)), (-0.6470588235294118, -0.5294117647058824))
+        self.assertEqual(divide_complex((2, -3), (-1, 4)), (-0.8235294117647058, -0.29411764705882354))
 
         # Boundary cases
         self.assertEqual(divide_complex((0, 0), (0, 1)), (0.0, 0.0))
