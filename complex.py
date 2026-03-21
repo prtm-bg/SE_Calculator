@@ -1,13 +1,34 @@
 # complex.py
 from calculator import Calculator
+import re
+import cmath
+
+def _format_complex(c):
+    """
+    Helper function to format a Python complex object back into a 
+    clean 'a+bj' string without parentheses to match lab requirements.
+    """
+    res = str(c).replace(' ', '')
+    if res.startswith('(') and res.endswith(')'):
+        res = res[1:-1]
+    return res
 
 def parse_complex_string(expression):
     """
-    Member 1: Parses an input string like '(3 + 2j) * (5+ 3j)'[cite: 119].
+    Parses an input string like '(3+2j) * (5+3j)'.
     Extracts the two complex numbers and the mathematical operator.
-    Must support the standard a + bj representation[cite: 121].
     """
-    pass 
+    # Regex to capture everything inside the parentheses and the operator between them
+    pattern = r'\s*\(([^)]+)\)\s*([+\-*/])\s*\(([^)]+)\)\s*'
+    match = re.match(pattern, expression)
+    
+    if not match:
+        raise ValueError("Invalid complex expression format. Expected: '(a+bj) op (c+dj)'")
+    
+    c1_str, operator, c2_str = match.groups()
+    
+    # Remove any internal spaces (e.g., '3 + 2j' becomes '3+2j')
+    return c1_str.replace(' ', ''), operator, c2_str.replace(' ', '')
 
 def add_complex(c1, c2):
     """
@@ -26,14 +47,22 @@ def multiply_complex(c1, c2):
     Member 3: Handles the multiplication of two complex numbers[cite: 120].
     """
     
-    # c1 and c2 are tuples: (real, imag)
     calc = Calculator()
-    a, b = c1
-    c, d = c2
+    
+    # 1. Convert the incoming strings to Python complex objects
+    c1 = complex(c1_str)
+    c2 = complex(c2_str)
+    
+    a, b = c1.real, c1.imag
+    c, d = c2.real, c2.imag
+    
     # (a+bi)*(c+di) = (ac - bd) + (ad + bc)i
     real_part = calc.subtract(calc.multiply(a, c), calc.multiply(b, d))
     imag_part = calc.add(calc.multiply(a, d), calc.multiply(b, c))
-    return (real_part, imag_part)
+    
+    # 4. Reconstruct into a complex object and format back to a string
+    result = complex(real_part, imag_part)
+    return _format_complex(result)
 
 def divide_complex(c1, c2):
     """
@@ -42,8 +71,14 @@ def divide_complex(c1, c2):
     """
     # c1 and c2 are tuples: (real, imag)
     calc = Calculator()
-    a, b = c1
-    c, d = c2
+    
+    # 1. Convert the incoming strings to Python complex objects
+    c1 = complex(c1_str)
+    c2 = complex(c2_str)
+    
+    a, b = c1.real, c1.imag
+    c, d = c2.real, c2.imag
+    
     # denominator = c^2 + d^2
     denominator = calc.add(calc.multiply(c, c), calc.multiply(d, d))
     if denominator == 0:
@@ -54,7 +89,9 @@ def divide_complex(c1, c2):
     # imag part: (bc - ad) / (c^2 + d^2)
     imag_num = calc.subtract(calc.multiply(b, c), calc.multiply(a, d))
     imag_part = calc.divide(imag_num, denominator)
-    return (real_part, imag_part)
+    
+    result = complex(real_part, imag_part)
+    return _format_complex(result)
 
 def compute_magnitude(c):
     """
