@@ -110,7 +110,7 @@ def twos_complement(b: str) -> str:
     """
     raw = _strip(b)
     _validate(raw)
-    ones = ones_complement(f"B'{raw}")[2:]   # strip B' prefix
-    val = int(ones, 2) + 1
-    result = bin(val)[2:][-len(ones):].zfill(len(ones))
+    ones = ones_complement(f"B'{raw}")[2:]
+    val = int(ones, 2) + 1                         # no modulo
+    result = bin(val)[2:].zfill(len(ones))         # zfill won't truncate carry
     return f"B'{result}"
