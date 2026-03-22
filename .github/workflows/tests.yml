@@ -1,0 +1,32 @@
+name: Run Tests
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pytest pytest-cov
+
+      - name: Run base calculator tests
+        run: pytest test_calculator.py -v
+
+      - name: Run binary module tests
+        run: pytest tests/testbinary.py -v
+
+      - name: Coverage report
+        run: pytest tests/testbinary.py --cov=modules --cov-report=term-missing
