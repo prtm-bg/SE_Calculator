@@ -106,9 +106,24 @@ def compute_phase(c):
 
 def evaluate_complex_expression(expression):
     """
-    Member 5 (Integrator): The main runner function. 
-    Takes the raw string, passes it to parse_complex_string, 
-    routes the parsed data to the correct math function above, 
-    and returns the final string result.
+    Evaluates a full complex expression string like:
+    '(1+2j) * (3+4j)'
     """
+
+    c1, op, c2 = parse_complex_string(expression)
+
+    if op == '+':
+        return add_complex(c1, c2)
+
+    elif op == '-':
+        return subtract_complex(c1, c2)
+
+    elif op == '*':
+        return multiply_complex(c1, c2)
+
+    elif op == '/':
+        return divide_complex(c1, c2)
+
+    else:
+        raise ValueError("Unsupported operation")
     
