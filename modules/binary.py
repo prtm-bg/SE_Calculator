@@ -1,6 +1,6 @@
 # -- Pritam 038 -------------------------------------------------------
 
-from exceptions import InvalidBinaryInputError, NegativeBinaryResultError
+from .exceptions import InvalidBinaryInputError, NegativeBinaryResultError
 
 
 def _strip(b: str) -> str:
