@@ -9,7 +9,7 @@ from modules.binary import (
     binary_multiply, binary_divide,
     ones_complement, twos_complement,
 )
-from exceptions import InvalidBinaryInputError, NegativeBinaryResultError
+from modules.exceptions import InvalidBinaryInputError, NegativeBinaryResultError
 
 
 class TestBinaryConversions(unittest.TestCase):
