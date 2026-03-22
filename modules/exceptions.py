@@ -1,3 +1,4 @@
+
 # ---- Harsh 035: Exceptions ----------
 class InvalidBinaryInputError(ValueError):
     def __init__(self, value: str):
