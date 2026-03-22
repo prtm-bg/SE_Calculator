@@ -88,5 +88,27 @@ def binary_divide(a: str, b: str) -> str:
 
 
 
+#-----------suhani 034: complement-------------------------------
 
 
+def ones_complement(b: str) -> str:
+    """
+    Flip all bits.
+    e.g. ones_complement("B'1010") -> "B'0101"
+    """
+    raw = _strip(b)
+    _validate(raw)
+    return "B'" + ''.join('1' if bit == '0' else '0' for bit in raw)
+
+
+def twos_complement(b: str) -> str:
+    """
+    Add 1 to the one's complement.
+    e.g. twos_complement("B'0111") -> "B'1001"
+    """
+    raw = _strip(b)
+    _validate(raw)
+    ones = ones_complement(f"B'{raw}")[2:]   # strip B' prefix
+    val = int(ones, 2) + 1
+    result = bin(val)[2:][-len(ones):].zfill(len(ones))
+    return f"B'{result}"
