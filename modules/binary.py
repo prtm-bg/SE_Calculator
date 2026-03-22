@@ -62,7 +62,9 @@ def binary_subtract(a: str, b: str) -> str:
     db = int(binary_to_decimal(b).split("'")[1])
     if da < db:
         raise NegativeBinaryResultError()
-    return decimal_to_binary(f"D'{da - db}")
+    bit_len = max(len(_strip(a)), len(_strip(b)))
+    result = bin(da - db)[2:].zfill(bit_len)
+    return f"B'{result}"
 
 
 def binary_multiply(a: str, b: str) -> str:
