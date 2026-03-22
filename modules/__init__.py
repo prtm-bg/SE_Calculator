@@ -3,6 +3,8 @@ from .binary import (
     decimal_to_binary,
     binary_add,
     binary_subtract,
+    binary_multiply,
+    binary_divide,
     ones_complement,
     twos_complement,
 )
