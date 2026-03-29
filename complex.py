@@ -2,7 +2,6 @@
 import cmath
 from calculator import Calculator
 import re
-import cmath
 
 
 def _complex_str_to_tuple(c_str):
