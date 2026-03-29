@@ -8,14 +8,17 @@ from complex import (
 import math
 class TestComplexArithmetic(unittest.TestCase):
 
-    # --- Member 1 Tests ---
+    # --- Parser Tests ---
     def test_parse_complex_string_valid(self):
-        # Test normal valid strings here
-        pass
+        c1, op, c2 = parse_complex_string('(3 + 2j) * (5+ 3j)')
+        self.assertEqual(c1, '3+2j')
+        self.assertEqual(op, '*')
+        self.assertEqual(c2, '5+3j')
 
     def test_parse_complex_string_invalid(self):
-        # Test malformed strings or missing brackets here
-        pass
+        # Boundary Condition: Missing brackets should raise a ValueError
+        with self.assertRaises(ValueError):
+            parse_complex_string('3+2j * 5+3j')
 
     # --- Member 2 Tests ---
     def test_add_complex(self):
@@ -27,14 +30,59 @@ class TestComplexArithmetic(unittest.TestCase):
         pass
 
     # --- Member 3 Tests ---
+
     def test_multiply_complex(self):
-        # Lab manual example test case 
-        self.assertEqual(multiply_complex('1+2j', '3+4j'), '-5+10j')
+        # Normal cases
+        self.assertEqual(multiply_complex((3, 2), (5, 3)), (9, 19))  # (3+2j)*(5+3j) = (3*5-2*3, 3*3+2*5) = (15-6, 9+10) = (9, 19)
+        self.assertEqual(multiply_complex((0, 0), (5, 3)), (0, 0))   # Zero times anything
+        self.assertEqual(multiply_complex((1, 0), (0, 1)), (0, 1))   # (1+0j)*(0+1j) = (0, 1)
+        self.assertEqual(multiply_complex((2, -3), (-1, 4)), (10, 11)) # (2-3j)*(-1+4j) = (2*-1-(-3)*4, 2*4+(-3)*-1) = (-2+12, 8+3) = (10, 11)
+
+        # Boundary cases
+        self.assertEqual(multiply_complex((0, 0), (0, 0)), (0, 0))   # Both zero
+        self.assertEqual(multiply_complex((999999, 0), (0, 999999)), (0, 999999*999999))
+        self.assertEqual(multiply_complex((-1, -1), (-1, -1)), (0, 2))
+
+        # Invalid input handling
+        with self.assertRaises(TypeError):
+            multiply_complex((1,), (2, 3))  # Too few elements
+        with self.assertRaises(TypeError):
+            multiply_complex((1, 2, 3), (2, 3))  # Too many elements
+        with self.assertRaises(TypeError):
+            multiply_complex((1, 'a'), (2, 3))  # Non-numeric
+        with self.assertRaises(TypeError):
+            multiply_complex('not a tuple', (2, 3))
+
 
     def test_divide_complex(self):
-        # Test normal division
-        pass
+        # Normal cases
+        self.assertEqual(divide_complex((3, 2), (5, 3)), (0.6176470588235294, 0.029411764705882353))
+        self.assertEqual(divide_complex((0, 0), (5, 3)), (0.0, 0.0))
+        self.assertEqual(divide_complex((1, 0), (1, 0)), (1.0, 0.0))
+        self.assertEqual(divide_complex((2, -3), (-1, 4)), (-0.8235294117647058, -0.29411764705882354))
 
+        # Boundary cases
+        self.assertEqual(divide_complex((0, 0), (0, 1)), (0.0, 0.0))
+        self.assertEqual(divide_complex((999999, 0), (0, 999999)), (0.0, -1.0))
+        self.assertEqual(divide_complex((-1, -1), (-1, -1)), (1.0, 0.0))
+
+        # Invalid input handling
+        with self.assertRaises(TypeError):
+            divide_complex((1,), (2, 3))  # Too few elements
+        with self.assertRaises(TypeError):
+            divide_complex((1, 2, 3), (2, 3))  # Too many elements
+        with self.assertRaises(TypeError):
+            divide_complex((1, 'a'), (2, 3))  # Non-numeric
+        with self.assertRaises(TypeError):
+            divide_complex('not a tuple', (2, 3))
+
+
+    def test_divide_complex_by_zero(self):
+        # Test division by zero exception handling
+        with self.assertRaises(ValueError):
+            divide_complex((1, 2), (0, 0))
+
+    # --- Member 4 Tests ---
     def test_compute_magnitude(self):
     # Test magnitude calculations
         self.assertAlmostEqual(compute_magnitude('3+4j'), 5.0)
