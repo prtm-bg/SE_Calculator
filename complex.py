@@ -3,6 +3,14 @@ from calculator import Calculator
 import re
 import cmath
 
+
+def _complex_str_to_tuple(c_str):
+    try:
+        c = complex(c_str)
+    except ValueError as exc:
+        raise ValueError(f"Invalid complex number: {c_str}") from exc
+    return (float(c.real), float(c.imag))
+
 def _format_complex(c):
     """
     Helper function to format a Python complex object back into a 
@@ -110,7 +118,9 @@ def evaluate_complex_expression(expression):
     '(1+2j) * (3+4j)'
     """
 
-    c1, op, c2 = parse_complex_string(expression)
+    c1_str, op, c2_str = parse_complex_string(expression)
+    c1 = _complex_str_to_tuple(c1_str)
+    c2 = _complex_str_to_tuple(c2_str)
 
     if op == '+':
         return add_complex(c1, c2)
