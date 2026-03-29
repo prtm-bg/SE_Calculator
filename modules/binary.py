@@ -101,6 +101,7 @@ def ones_complement(b: str) -> str:
     return "B'" + ''.join('1' if bit == '0' else '0' for bit in raw)
 
 
+
 def twos_complement(b: str) -> str:
     """
     Add 1 to the one's complement.
