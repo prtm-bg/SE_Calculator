@@ -1,7 +1,7 @@
 # complex.py
+import cmath
 from calculator import Calculator
 import re
-import cmath
 
 
 def _complex_str_to_tuple(c_str):
@@ -42,6 +42,7 @@ def add_complex(c1, c2):
     """
     Member 2: Handles the addition of two complex numbers[cite: 120].
     """
+
     pass 
 
 def subtract_complex(c1, c2):
@@ -104,13 +105,15 @@ def compute_magnitude(c):
     """
     Member 4: Calculates the magnitude of a single complex number[cite: 122].
     """
-    pass
+    z = complex(c.replace(" ", ""))  
+    return abs(z)
 
 def compute_phase(c):
     """
     Member 4: Calculates the phase (angle) of a single complex number[cite: 122].
     """
-    pass
+    z = complex(c.replace(" ", "")) 
+    return cmath.phase(z)
 
 def evaluate_complex_expression(expression):
     """

@@ -5,7 +5,7 @@ from complex import (
     multiply_complex, divide_complex, compute_magnitude, 
     compute_phase, evaluate_complex_expression
 )
-
+import math
 class TestComplexArithmetic(unittest.TestCase):
 
     # --- Parser Tests ---
@@ -84,12 +84,18 @@ class TestComplexArithmetic(unittest.TestCase):
 
     # --- Member 4 Tests ---
     def test_compute_magnitude(self):
-        # Test magnitude calculations
-        pass
+    # Test magnitude calculations
+        self.assertAlmostEqual(compute_magnitude('3+4j'), 5.0)
+        self.assertAlmostEqual(compute_magnitude('1+0j'), 1.0)
+        self.assertAlmostEqual(compute_magnitude('0+2j'), 2.0)
+
 
     def test_compute_phase(self):
         # Test phase calculations (check against known angles)
-        pass
+        self.assertAlmostEqual(compute_phase('1+0j'), 0.0)
+        self.assertAlmostEqual(compute_phase('0+1j'), math.pi/2)
+        self.assertAlmostEqual(compute_phase('-1+0j'), math.pi)
+
 
     # --- Member 5 Tests (Integration) ---
     def test_evaluate_complex_expression(self):
