@@ -1,7 +1,3 @@
-
-# ── deepjit pal (036): Exceptions─────────────────────────────────────────────────────
-
-
 import unittest
 from modules.binary import (
     binary_to_decimal, decimal_to_binary,
@@ -9,8 +5,8 @@ from modules.binary import (
     binary_multiply, binary_divide,
     ones_complement, twos_complement,
 )
-from modules.exceptions import InvalidBinaryInputError, NegativeBinaryResultError
-
+from exceptions.binary_exceptions import InvalidBinaryInputError, NegativeBinaryResultError
+from modules.binary import Binary
 
 class TestBinaryConversions(unittest.TestCase):
     def test_bin_to_dec_basic(self):
@@ -61,7 +57,6 @@ class TestComplements(unittest.TestCase):
     def test_twos_complement(self):
         self.assertEqual(twos_complement("B'0111"), "B'1001")
 
-
     def test_twos_complement_zero(self):
         self.assertEqual(twos_complement("B'0000"), "B'10000")
 
@@ -78,6 +73,24 @@ class TestInvalidInput(unittest.TestCase):
     def test_missing_prefix(self):
         with self.assertRaises(InvalidBinaryInputError):
             binary_to_decimal("1021")
+
+
+class TestCalculatorIntegration(unittest.TestCase):
+    def setUp(self):
+        self.calc = Binary()
+
+    def test_binary_add_routes_by_mode(self):
+        self.assertEqual(self.calc.add("B'011", "B'010"), "B'101")
+
+    def test_binary_subtract_routes_by_mode(self):
+        self.assertEqual(self.calc.subtract("101", "010"), "B'011")
+
+    def test_binary_evaluate_from_instance_mode(self):
+        self.assertEqual(self.calc.evaluate("011 + 010"), "B'101")
+
+    def test_non_binary_mode_keeps_default_numeric_behavior(self):
+        self.calc.mode = 0
+        self.assertEqual(self.calc.add(3, 4), 7)
 
 
 if __name__ == '__main__':
